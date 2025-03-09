@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Zaykaa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+    <!-- Header placeholder -->
+    <div id="header-placeholder"></div>
+
+    <section class="checkout-section">
+        <h1 class="heading">Check<span>out</span></h1>
+
+        <div class="checkout-container">
+            <!-- Left Side - Order Details -->
+            <div class="checkout-details">
+                <!-- Delivery Address -->
+                <div class="checkout-box address-box">
+                    <h2><i class="fas fa-map-marker-alt"></i> Delivery Address</h2>
+                    <div class="saved-addresses" id="saved-addresses">
+                        <!-- Saved addresses will be loaded here -->
+                    </div>
+                    <button class="btn add-address-btn" id="add-address-btn">
+                        <i class="fas fa-plus"></i> Add New Address
+                    </button>
+                </div>
+
+                <!-- Order Items -->
+                <div class="checkout-box order-items">
+                    <h2><i class="fas fa-shopping-basket"></i> Order Items</h2>
+                    <div class="items-list" id="order-items-list">
+                        <!-- Order items will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="checkout-box payment-box">
+                    <h2><i class="fas fa-wallet"></i> Payment Method</h2>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" name="payment" id="cod" value="cod">
+                            <label for="cod">
+                                <i class="fas fa-money-bill-wave"></i>
+                                Cash on Delivery
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" name="payment" id="upi" value="upi">
+                            <label for="upi">
+                                <i class="fas fa-mobile-alt"></i>
+                                UPI
+                                <div class="upi-options">
+                                    <img src="image/payments/gpay.png" alt="Google Pay">
+                                    <img src="image/payments/phonepe.png" alt="PhonePe">
+                                    <img src="image/payments/paytm.png" alt="Paytm">
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" name="payment" id="card" value="card">
+                            <label for="card">
+                                <i class="fas fa-credit-card"></i>
+                                Credit/Debit Card
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" name="payment" id="netbanking" value="netbanking">
+                            <label for="netbanking">
+                                <i class="fas fa-university"></i>
+                                Net Banking
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- UPI Payment Form -->
+                    <div class="payment-form upi-form" id="upi-form" style="display: none;">
+                        <input type="text" placeholder="Enter UPI ID (e.g., name@upi)">
+                        <button class="btn verify-btn">Verify</button>
+                    </div>
+
+                    <!-- Card Payment Form -->
+                    <div class="payment-form card-form" id="card-form" style="display: none;">
+                        <input type="text" placeholder="Card Number">
+                        <div class="card-details">
+                            <input type="text" placeholder="MM/YY">
+                            <input type="text" placeholder="CVV">
+                        </div>
+                        <input type="text" placeholder="Card Holder Name">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Order Summary -->
+            <div class="order-summary">
+                <div class="summary-box">
+                    <h2>Order Summary</h2>
+                    <div class="summary-items" id="summary-items">
+                        <!-- Summary items will be loaded here -->
+                    </div>
+                    <div class="price-details">
+                        <div class="price-row">
+                            <span>Items Total</span>
+                            <span id="items-total">₹0</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Delivery Fee</span>
+                            <span id="delivery-fee">₹40</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Taxes</span>
+                            <span id="taxes">₹0</span>
+                        </div>
+                        <div class="price-row total">
+                            <span>Total Amount</span>
+                            <span id="total-amount">₹0</span>
+                        </div>
+                    </div>
+                    <button class="btn place-order-btn" id="place-order-btn">
+                        Place Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/script.js"></script>
+    <script src="js/checkout.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load cart items from localStorage
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Check if cart is empty
+        if (cartItems.length === 0) {
+            alert('Your cart is empty!');
+            window.location.href = 'index.html';
+            return;
+        }
+
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            alert('Please login to continue');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // Display cart items in checkout page
+        displayCartItems(cartItems);
+        updateOrderSummary(cartItems);
+    });
+
+    function displayCartItems(items) {
+        const container = document.getElementById('order-items-list');
+        if (container) {
+            container.innerHTML = items.map(item => `
+                <div class="item-card">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-details">
+                        <h3>${item.name}</h3>
+                        <div class="price">₹${item.price} × ${item.quantity}</div>
+                        <div class="item-quantity">
+                            Quantity: ${item.quantity}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update summary items
+        const summaryContainer = document.getElementById('summary-items');
+        if (summaryContainer) {
+            summaryContainer.innerHTML = items.map(item => `
+                <div class="price-row">
+                    <span>${item.name} × ${item.quantity}</span>
+                    <span>₹${item.price * item.quantity}</span>
+                </div>
+            `).join('');
+        }
+    }
+
+    function updateOrderSummary(items) {
+        const itemsTotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const deliveryFee = itemsTotal >= 500 ? 0 : 40;
+        const taxes = Math.round(itemsTotal * 0.05); // 5% tax
+        const total = itemsTotal + deliveryFee + taxes;
+
+        document.getElementById('items-total').textContent = `₹${itemsTotal}`;
+        document.getElementById('delivery-fee').textContent = `₹${deliveryFee}`;
+        document.getElementById('taxes').textContent = `₹${taxes}`;
+        document.getElementById('total-amount').textContent = `₹${total}`;
+    }
+    </script>
+</body>
+</html> 

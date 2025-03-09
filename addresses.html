@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Addresses - Zaykaa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/addresses.css">
+    <!-- Add Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+</head>
+<body>
+    <!-- Header placeholder -->
+    <div id="header-placeholder"></div>
+
+    <section class="addresses-section">
+        <h1 class="heading">My <span>Addresses</span></h1>
+
+        <!-- Current Location Card -->
+        <div class="current-location-card">
+            <div class="location-icon">
+                <i class="fas fa-location-arrow"></i>
+            </div>
+            <div class="location-info">
+                <h3>Current Location</h3>
+                <p id="current-address">Detecting your location...</p>
+            </div>
+            <button class="btn use-location-btn" id="use-current-location">
+                <i class="fas fa-crosshairs"></i> Use Current Location
+            </button>
+        </div>
+
+        <!-- Saved Addresses -->
+        <div class="saved-addresses">
+            <div class="section-header">
+                <h2>Saved Addresses</h2>
+                <button class="btn add-address-btn" id="add-address-btn">
+                    <i class="fas fa-plus"></i> Add New Address
+                </button>
+            </div>
+            
+            <div class="addresses-grid" id="addresses-grid">
+                <!-- Addresses will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Add/Edit Address Modal -->
+        <div class="modal" id="address-modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Add New Address</h2>
+                <form id="address-form">
+                    <div class="form-group">
+                        <label>Address Type</label>
+                        <div class="address-type-btns">
+                            <button type="button" class="type-btn active" data-type="home">
+                                <i class="fas fa-home"></i> Home
+                            </button>
+                            <button type="button" class="type-btn" data-type="work">
+                                <i class="fas fa-briefcase"></i> Work
+                            </button>
+                            <button type="button" class="type-btn" data-type="other">
+                                <i class="fas fa-map-marker-alt"></i> Other
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Search Location</label>
+                        <input type="text" id="location-search" placeholder="Search for your location">
+                    </div>
+
+                    <div class="map-container">
+                        <div id="map"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Complete Address</label>
+                        <textarea id="complete-address" placeholder="House/Flat number, Street, Landmark"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="text" id="pincode" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn save-address-btn">Save Address</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/script.js"></script>
+    <script src="js/addresses.js"></script>
+</body>
+</html> 
